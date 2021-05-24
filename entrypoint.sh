@@ -1,10 +1,10 @@
 #!/bin/sh -l
 
-SEM_VER="$1"
-LABEL="$2"
-MAIN_BRANCH="$3"
-CHANGELOG_FORMAT="$4"
-GITHUB_TOKEN="$5"
+SEM_VER=$1
+LABEL=$2
+MAIN_BRANCH=$3
+CHANGELOG_FORMAT=$4
+GITHUB_TOKEN=$5
 
 # FAIL for invalid version inputs
 if(( '$SEM_VER' != 'MAJOR' & '$SEM_VER' != 'MINOR' & '$SEM_VER' != 'PATCH' ))
