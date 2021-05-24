@@ -1,0 +1,37 @@
+name: 'Automatic Semver Release'
+description: 'Github Semver Automatic Release'
+inputs:
+  GITHUB_TOKEN: 
+    description: 'Github Token to be used for authentication'
+    required: true
+    default: '${{ secrets.GITHUB_TOKEN }}'
+  GITHUB_REPOSITORY:
+    description: 'Github repository where the action will run'
+    required: true
+    default: '${{ github.repository }}'
+  SEMVER:
+    description: 'Which version you want to increment? Use MAJOR, MINOR or PATCH'
+    required: false
+    default: 'PATCH'
+  LABEL:
+    description: 'Add Labels. i.e final, alpha, rc'
+    required: false
+    default: ''
+  MAIN_BRANCH:
+    description: 'The name of your main branch'
+    required: false
+    default: 'main'
+  CHANGELOG_FORMAT:
+    description: 'Format of the line to appear on the changelog'
+    required: false
+    default: '- [[%h](https://www.github.com//${{ inputs.GITHUB_REPOSITORY }}/commit/%H)]: %s\n'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.GITHUB_TOKEN }}
+    - ${{ inputs.GITHUB_REPOSITORY }}
+    - ${{ inputs.SEMVER }}
+    - ${{ inputs.LABEL }}
+    - ${{ inputs.MAIN_BRANCH }}
+    - ${{ inputs.CHANGELOG_FORMAT }}
