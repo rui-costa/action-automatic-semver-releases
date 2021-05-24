@@ -21,8 +21,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.GITHUB_TOKEN }}
-    - ${{ inputs.GITHUB_REPOSITORY }}
     - ${{ inputs.SEMVER }}
     - ${{ inputs.LABEL }}
     - ${{ inputs.MAIN_BRANCH }}
