@@ -1,14 +1,6 @@
 name: 'Automatic Semver Release'
 description: 'Github Semver Automatic Release'
 inputs:
-  GITHUB_TOKEN: 
-    description: 'Github Token to be used for authentication'
-    required: true
-    default: ''
-  GITHUB_REPOSITORY:
-    description: 'Github repository where the action will run'
-    required: true
-    default: ''
   SEMVER:
     description: 'Which version you want to increment? Use MAJOR, MINOR or PATCH'
     required: false
