@@ -7,8 +7,10 @@ changelog="$4"
 token="$5"
 
 # FAIL for invalid version inputs
-if(( '$semver' != 'MAJOR' & '$semver' != 'MINOR' & '$semver' != 'PATCH' ))
+if(( $semver=='MAJOR' ||  $semver=='MINOR' || $semver=='PATCH' ))
 then
+  echo "VALID SEMANTIC VERSION INCREMENT"
+else
   echo "ERROR: INVALID VERSION INPUT"
   echo "The version $semver is not a valid value."
   echo "The value is case sensitive. Make sure you type it correctly."
@@ -28,7 +30,7 @@ LATEST=`git tag | tail -1`
 # MAJOR version when you make incompatible API changes
 # Major version X (X.y.z | X > 0) MUST be incremented if any backwards incompatible changes are introduced to the public API
 
-if(( '$semver' == 'MAJOR' ))
+if(( $semver=='MAJOR' ))
 then
 MAJOR=`git tag | tail -1 | cut -d '.' -f 1 | awk '{$1=$1+1;1'`
 else
@@ -38,7 +40,7 @@ fi
 # MINOR version when you add functionality in a backwards compatible manner
 # Minor version Y (x.Y.z | x > 0) MUST be incremented if new, backwards compatible functionality is introduced to the public API.
 # It MUST be incremented if any public API functionality is marked as deprecated.
-if(( '$semver' == 'MAJOR' ))
+if(( $semver=='MAJOR' ))
 then
   MINOR=`git tag | tail -1 | cut -d '.' -f 2 | awk '{$1=$1+1;1'`
 else
@@ -47,7 +49,7 @@ fi
 
 # PATCH version when you make backwards compatible bug fixes.
 # Patch version Z (x.y.Z | x > 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
-if(( '$semver' == 'PATCH' ))
+if(( $semver=='PATCH' ))
 then
   PATCH=`git tag | tail -1 | cut -d '.' -f 3 | awk '{$1=$1+1;1'`
 else
@@ -56,20 +58,20 @@ fi
 
 
 # Minor version MUST be reset to 0 when major version is incremented.
-if(( '$semver' == 'MAJOR' ))
+if(( $semver=='MAJOR' ))
 then
   MINOR='0'
 fi
 
 # Patch version MUST be reset to 0 when major version is incremented.
 # Patch version MUST be reset to 0 when minor version is incremented.
-if(( '$semver' == 'MAJOR' || '$semver' == 'MINOR' ))
+if(( $semver=='MAJOR' || $semver=='MINOR' ))
 then
   PATCH='0'
 fi
 
 # Add label if exists
-if(( '$label' != '' ))
+if(( '$label'!='' ))
 then
 PATCH=$PATCH-$label
 fi
