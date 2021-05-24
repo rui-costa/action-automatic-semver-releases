@@ -18,6 +18,8 @@ then
   exit 1
 fi
 
+CHANGELOG_FORMAT=`sed 's|<<GITHUB_REPOSITORY>>|$GITHUB_REPOSITORY|g'`
+
 # Get the latest tag and add it to a output variable
 git fetch origin $MAIN_BRANCH
 git fetch --tags

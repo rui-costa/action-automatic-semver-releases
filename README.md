@@ -61,12 +61,12 @@ jobs:
 Below is a list of all supported input parameters
 | Parameter | Description | Required | Default |
 | - | - | - | - | 
-| GITHUB_TOKEN | Github Token to be used for authentication | __YES__ | __${{secrets.GITHUB_TOKEN}}__ |
-| GITHUB_REPOSITORY | Github repository where the action will run | __YES__ | __${{github.repository}}__ |
+| GITHUB_TOKEN | Github Token to be used for authentication | __YES__ | _null_ |
+| GITHUB_REPOSITORY | Github repository where the action will run | __YES__ | _null_ |
 | SEMVER | Which version you want to increment? Use MAJOR, MINOR or PATCH | __NO__ | __PATCH__ |
 | LABEL | Add Labels. i.e final, alpha, rc | NO | _null_ |
 | MAIN_BRANCH | The name of your main branch | NO | main |
-| CHANGELOG_FORMAT | Format of the line to appear on the changelog. [View format](https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History#pretty_format)  | NO | - [[%h]\(https://www.github.com//$GITHUB_REPOSITORY/commit/%H)]: %s\n |
+| CHANGELOG_FORMAT | Format of the line to appear on the changelog. [View format](https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History#pretty_format)  | NO | - [[%h]\(https://www.github.com//<<GITHUB_REPOSITORY>>/commit/%H)]: %s\n |
 
 
 ## Versioning

@@ -24,7 +24,7 @@ inputs:
   CHANGELOG_FORMAT:
     description: 'Format of the line to appear on the changelog'
     required: false
-    default: '- [[%h](https://www.github.com//${{ inputs.GITHUB_REPOSITORY }}/commit/%H)]: %s\n'
+    default: '- [[%h](https://www.github.com/<<GITHUB_REPOSITORY>>/commit/%H)]: %s\n'
 runs:
   using: 'docker'
   image: 'Dockerfile'
