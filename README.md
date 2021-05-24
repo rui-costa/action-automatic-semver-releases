@@ -50,6 +50,7 @@ jobs:
 
       - uses: "rui-costa/action-automatic-semver-releases@latest"
         with:
+          TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           SEMVER: "${{ github.event.inputs.semver }}" 
           LABEL:  "${{ github.event.inputs.label }}"
 ```
