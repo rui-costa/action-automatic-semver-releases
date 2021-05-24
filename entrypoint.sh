@@ -3,7 +3,7 @@
 SEMVER="$1"
 LABEL="$2"
 MAIN_BRANCH="$3"
-CHANGELOG_FORMAT= "$4"
+CHANGELOG_FORMAT="$4"
 
 # FAIL for invalid version inputs
 if (( ${SEMVER} != 'MAJOR' && ${SEMVER} != 'MINOR' && ${SEMVER} != 'PATCH' ))
@@ -70,6 +70,7 @@ fi
 
 # Add label if exists
 if (( ${LABEL} != '' ))
+then
 PATCH=${PATCH}-${LABEL}
 fi
 

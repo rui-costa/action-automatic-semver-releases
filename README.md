@@ -50,8 +50,6 @@ jobs:
 
       - uses: "rui-costa/action-automatic-semver-releases@latest"
         with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          GITHUB_REPOSITORY: "${{ github.repository }}"
           SEMVER: "${{ github.event.inputs.semver }}" 
           LABEL:  "${{ github.event.inputs.label }}"
 ```
@@ -61,8 +59,6 @@ jobs:
 Below is a list of all supported input parameters
 | Parameter | Description | Required | Default |
 | - | - | - | - | 
-| GITHUB_TOKEN | Github Token to be used for authentication | __YES__ | _null_ |
-| GITHUB_REPOSITORY | Github repository where the action will run | __YES__ | _null_ |
 | SEMVER | Which version you want to increment? Use MAJOR, MINOR or PATCH | __NO__ | __PATCH__ |
 | LABEL | Add Labels. i.e final, alpha, rc | NO | _null_ |
 | MAIN_BRANCH | The name of your main branch | NO | main |
