@@ -59,6 +59,7 @@ jobs:
 Below is a list of all supported input parameters
 | Parameter | Description | Required | Default |
 | - | - | - | - | 
+| TOKEN | Secret token from GitHub. secrets.GITHUB_TOKEN | YES | _null_ |
 | SEMVER | Which version you want to increment? Use MAJOR, MINOR or PATCH | __NO__ | __PATCH__ |
 | LABEL | Add Labels. i.e final, alpha, rc | NO | _null_ |
 | MAIN_BRANCH | The name of your main branch | NO | main |

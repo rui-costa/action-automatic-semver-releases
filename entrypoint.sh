@@ -4,6 +4,7 @@ SEMVER="$1"
 LABEL="$2"
 MAIN_BRANCH="$3"
 CHANGELOG_FORMAT="$4"
+GITHUB_TOKEN="$5"
 
 # FAIL for invalid version inputs
 if (( '${SEMVER}' != 'MAJOR' && '${SEMVER}' != 'MINOR' && '${SEMVER}' != 'PATCH' ))
@@ -90,6 +91,6 @@ cat data
 curl \
 -X POST \
 -H "Accept: application/vnd.github.v3+json" \
--H "Authorization: Bearer $GITHUB_TOKEN" \
+-H "Authorization: Bearer ${GITHUB_TOKEN}" \
 https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
 -d @data

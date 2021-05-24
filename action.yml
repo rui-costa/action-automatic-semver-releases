@@ -1,6 +1,10 @@
 name: 'Automatic Semver Release'
 description: 'Github Semver Automatic Release'
 inputs:
+  TOKEN:
+    description: 'Secret token from GitHub'
+    required: true
+    default: ''
   SEMVER:
     description: 'Which version you want to increment? Use MAJOR, MINOR or PATCH'
     required: false
@@ -25,3 +29,4 @@ runs:
     - ${{ inputs.LABEL }}
     - ${{ inputs.MAIN_BRANCH }}
     - ${{ inputs.CHANGELOG_FORMAT }}
+    - ${{ inputs.TOKEN }}
