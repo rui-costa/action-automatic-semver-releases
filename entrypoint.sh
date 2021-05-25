@@ -56,6 +56,8 @@ else
   PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1`
 fi
 
+echo $PATCH
+
 
 # Minor version MUST be reset to 0 when major version is incremented.
 if [ $semver = 'MAJOR' ]
