@@ -32,7 +32,7 @@ LATEST=`git tag | tail -1`
 
 if [ $semver = 'MAJOR' ]
 then
-MAJOR=`git tag | tail -1 | cut -d '.' -f 1 | awk '{$1=$1+1;1'`
+MAJOR=`git tag | tail -1 | cut -d '.' -f 1 | awk '{$1=$1+1;1}'`
 else
 MAJOR=`git tag | tail -1 | cut -d '.' -f 1`
 fi
@@ -42,7 +42,7 @@ fi
 # It MUST be incremented if any public API functionality is marked as deprecated.
 if [ $semver = 'MAJOR' ]
 then
-  MINOR=`git tag | tail -1 | cut -d '.' -f 2 | awk '{$1=$1+1;1'`
+  MINOR=`git tag | tail -1 | cut -d '.' -f 2 | awk '{$1=$1+1;1}'`
 else
   MINOR=`git tag | tail -1 | cut -d '.' -f 2`
 fi
@@ -51,7 +51,7 @@ fi
 # Patch version Z (x.y.Z | x > 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
 if [ $semver = 'PATCH' ]
 then
-  PATCH=`git tag | tail -1 | cut -d '.' -f 3 | awk '{$1=$1+1;1'`
+  PATCH=`git tag | tail -1 | cut -d '.' -f 3 | awk '{$1=$1+1;1}'`
 else
   PATCH=`git tag | tail -1 | cut -d '.' -f 3`
 fi
@@ -82,7 +82,7 @@ VERSION=$MAJOR.$MINOR.$PATCH
 
 # Generate the Changelog Text
 echo "{ \'tag_name\': \'$VERSION\', \'body\': \' ### Changelog\n\n" > data
-git log --all --pretty=format:$changelog $LATEST .. . | sed 's|*|-|g' >> data
+git log --all --pretty=format:$changelog $LATEST.. . | sed 's|*|-|g' >> data
 echo "\'" >> data
 
 cat data
