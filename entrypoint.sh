@@ -1,76 +1,82 @@
-#!/bin/sh -l
+#!/bin/sh
 
-GITHUB_TOKEN=$1
-GITHUB_REPOSITORY=$2
-SEMVER=$3
-LABEL=$4
-MAIN_BRANCH=$5
-CHANGELOG_FORMAT= $6
+semver="$1"
+label="$2"
+main_branch="$3"
+changelog="$4"
+token="$5"
 
 # FAIL for invalid version inputs
-if [ !( $SEMVER = "MAJOR" || $SEMVER = "MINOR" || $SEMVER = "PATCH" ) ]
+if [ $semver = 'MAJOR' ] || [ $semver = 'MINOR' ] || [ $semver = 'PATCH' ]
 then
-  echo "::group::ERROR: INVALID VERSION INPUT"
-  echo "The version ${{github.event.inputs.semver}} is not a valid value."
+  echo "VALID SEMANTIC VERSION INCREMENT"
+else
+  echo "ERROR: INVALID VERSION INPUT"
+  echo "The version $semver is not a valid value."
   echo "The value is case sensitive. Make sure you type it correctly."
   echo "Version value MUST be either MAJOR, MINOR or PATCH."
-  echo "::endgroup::"
   exit 1
 fi
 
+changelog=`echo $changelog | sed 's|<<GITHUB_REPOSITORY>>|'$GITHUB_REPOSITORY'|g'`
+
 # Get the latest tag and add it to a output variable
-git fetch origin $MAIN_BRANCH
+git fetch origin $main_branch
 git fetch --tags
-git rebase origin/$MAIN_BRANCH
-LATEST=$(git tag | tail -1)
+git rebase origin/$main_branch
+LATEST=`git tag | tail -1`
 
 # Generating semantic versioning. Following https://semver.org/
 # MAJOR version when you make incompatible API changes
 # Major version X (X.y.z | X > 0) MUST be incremented if any backwards incompatible changes are introduced to the public API
 
-if [ $SEMVER = "MAJOR" ]
+if [ $semver = 'MAJOR' ]
 then
-MAJOR=$(git tag | tail -1 | cut -d '.' -f 1 | awk '{$1=$1+1};1')
+  MAJOR=`echo $LATEST | cut -d '.' -f 1 | awk '{$1=$1+1};1'`
 else
-MAJOR=$(git tag | tail -1 | cut -d '.' -f 1)
+  MAJOR=`echo $LATEST | cut -d '.' -f 1`
 fi
 
 # MINOR version when you add functionality in a backwards compatible manner
 # Minor version Y (x.Y.z | x > 0) MUST be incremented if new, backwards compatible functionality is introduced to the public API.
 # It MUST be incremented if any public API functionality is marked as deprecated.
-if [ $SEMVER = "MAJOR" ]
+if [ $semver = 'MAJOR' ]
 then
-  MINOR=$(git tag | tail -1 | cut -d '.' -f 2 | awk '{$1=$1+1};1')
+  MINOR=`echo $LATEST | cut -d '.' -f 2 | awk '{$1=$1+1};1'`
 else
-  MINOR=$(git tag | tail -1 | cut -d '.' -f 2)
+  MINOR=`echo $LATEST | cut -d '.' -f 2`
 fi
 
 # PATCH version when you make backwards compatible bug fixes.
 # Patch version Z (x.y.Z | x > 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
-if [ $SEMVER = "PATCH" ]
+if [ $semver = 'PATCH' ]
 then
-  PATCH=$(git tag | tail -1 | cut -d '.' -f 3 | awk '{$1=$1+1};1')
+  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1 | awk '{$1=$1+1};1'`
 else
-  PATCH=$(git tag | tail -1 | cut -d '.' -f 3)
+  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1`
 fi
+
+echo $LATEST
+echo $PATCH
 
 
 # Minor version MUST be reset to 0 when major version is incremented.
-if [ $SEMVER = "MAJOR" ]
+if [ $semver = 'MAJOR' ]
 then
-  MINOR="0"
+  MINOR='0'
 fi
 
 # Patch version MUST be reset to 0 when major version is incremented.
 # Patch version MUST be reset to 0 when minor version is incremented.
-if [ $SEMVER = "MAJOR" || $SEMVER = "MINOR" ]
+if [ $semver = 'MAJOR' ] || [ $semver = 'MINOR' ]
 then
-  PATCH="0"
+  PATCH='0'
 fi
 
 # Add label if exists
-if [ !( $LABEL = "" ) ]
-PATCH=$PATCH-$LABEL
+if [ ! $label = '' ]
+then
+  PATCH=$TMP-$label
 fi
 
 # Create final form of semantic version
@@ -79,14 +85,16 @@ VERSION=$MAJOR.$MINOR.$PATCH
 
 # Generate the Changelog Text
 echo "{ \"tag_name\": \"$VERSION\", \"body\": \" ### Changelog\n\n" > data
-git log --all --pretty='${{ env.COMMIT_RELEASE_LINE_FORMAT }}' $LATEST .. . | sed 's|*|-|g' >> data
-echo "\"}" >> data
+git log --all --pretty=format:"$changelog" $LATEST.. . | sed 's|*|-|g' >> data
+echo " \"}" >> data
+
+cat data
 
 # Create release using github API
 # https://docs.github.com/en/rest/reference/repos#create-a-release
 curl \
 -X POST \
 -H "Accept: application/vnd.github.v3+json" \
--H "Authorization: Bearer $GITHUB_TOKEN" \
+-H "Authorization: Bearer $token" \
 https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
 -d @data

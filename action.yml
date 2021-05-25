@@ -1,12 +1,8 @@
 name: 'Automatic Semver Release'
 description: 'Github Semver Automatic Release'
 inputs:
-  GITHUB_TOKEN: 
-    description: 'Github Token to be used for authentication'
-    required: true
-    default: ''
-  GITHUB_REPOSITORY:
-    description: 'Github repository where the action will run'
+  TOKEN:
+    description: 'Secret token from GitHub'
     required: true
     default: ''
   SEMVER:
@@ -24,14 +20,13 @@ inputs:
   CHANGELOG_FORMAT:
     description: 'Format of the line to appear on the changelog'
     required: false
-    default: '- [[%h](https://www.github.com//${{ inputs.GITHUB_REPOSITORY }}/commit/%H)]: %s\n'
+    default: '- [[%h](https://www.github.com/<<GITHUB_REPOSITORY>>/commit/%H)]: %s\n'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.GITHUB_TOKEN }}
-    - ${{ inputs.GITHUB_REPOSITORY }}
     - ${{ inputs.SEMVER }}
     - ${{ inputs.LABEL }}
     - ${{ inputs.MAIN_BRANCH }}
     - ${{ inputs.CHANGELOG_FORMAT }}
+    - ${{ inputs.TOKEN }}
