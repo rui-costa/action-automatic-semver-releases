@@ -32,7 +32,7 @@ LATEST=`git tag | tail -1`
 
 if [ $semver = 'MAJOR' ]
 then
-  MAJOR=`echo $LATEST | cut -d '.' -f 1 | awk '{$1=$1+1;1}'`
+  MAJOR=`echo $LATEST | cut -d '.' -f 1 | awk '{$1=$1+1};1'`
 else
   MAJOR=`echo $LATEST | cut -d '.' -f 1`
 fi
@@ -42,7 +42,7 @@ fi
 # It MUST be incremented if any public API functionality is marked as deprecated.
 if [ $semver = 'MAJOR' ]
 then
-  MINOR=`echo $LATEST | cut -d '.' -f 2 | awk '{$1=$1+1;1}'`
+  MINOR=`echo $LATEST | cut -d '.' -f 2 | awk '{$1=$1+1};1'`
 else
   MINOR=`echo $LATEST | cut -d '.' -f 2`
 fi
@@ -51,7 +51,7 @@ fi
 # Patch version Z (x.y.Z | x > 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
 if [ $semver = 'PATCH' ]
 then
-  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1 | awk '{$1=$1+1;1}'`
+  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1 | awk '{$1=$1+1};1'`
 else
   PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1`
 fi
