@@ -20,9 +20,6 @@ fi
 
 changelog=\'`echo $changelog | sed 's|<<GITHUB_REPOSITORY>>|'$GITHUB_REPOSITORY'|g'`\'
 
-echo "git log --all --pretty=$changelog $LATEST .. . | sed 's|*|-|g' >> data"
-exit 0
-
 # Get the latest tag and add it to a output variable
 git fetch origin $main_branch
 git fetch --tags
