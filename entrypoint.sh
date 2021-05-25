@@ -32,9 +32,9 @@ LATEST=`git tag | tail -1`
 
 if [ $semver = 'MAJOR' ]
 then
-MAJOR=`echo $LATEST | cut -d '.' -f 1 | awk '{$1=$1+1;1}'`
+  MAJOR=`echo $LATEST | cut -d '.' -f 1 | awk '{$1=$1+1;1}'`
 else
-MAJOR=`echo $LATEST | cut -d '.' -f 1`
+  MAJOR=`echo $LATEST | cut -d '.' -f 1`
 fi
 
 # MINOR version when you add functionality in a backwards compatible manner
@@ -56,6 +56,7 @@ else
   PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1`
 fi
 
+echo $LATEST
 echo $PATCH
 
 
@@ -73,9 +74,9 @@ then
 fi
 
 # Add label if exists
-if [ $label != '' ]
+if [ ! $label = '' ]
 then
-PATCH=$TMP-$label
+  PATCH=$TMP-$label
 fi
 
 # Create final form of semantic version
