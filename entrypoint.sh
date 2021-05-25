@@ -80,10 +80,12 @@ fi
 # MAJOR.MINOR.PATCH
 VERSION=$MAJOR.$MINOR.$PATCH
 
+echo "git log --all --pretty=format:\"$changelog\" -- $LATEST.. . | sed 's|*|-|g' >> data"
+
 # Generate the Changelog Text
-echo "{ \'tag_name\': \'$VERSION\', \'body\': \' ### Changelog\n\n" > data
+echo "{ \"tag_name\": \"$VERSION\", \"body\": \" ### Changelog\n\n" > data
 git log --all --pretty=format:"$changelog" -- $LATEST.. . | sed 's|*|-|g' >> data
-echo "\'}" >> data
+echo " \"}" >> data
 
 cat data
 
