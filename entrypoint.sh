@@ -51,9 +51,9 @@ fi
 # Patch version Z (x.y.Z | x > 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
 if [ $semver = 'PATCH' ]
 then
-  PATCH=`echo $LATEST | cut -d '.' -f 3 | awk '{$1=$1+1;1}'`
+  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1 | awk '{$1=$1+1;1}'`
 else
-  PATCH=`echo $LATEST | cut -d '.' -f 3`
+  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1`
 fi
 
 
@@ -71,18 +71,14 @@ then
 fi
 
 # Add label if exists
-if [ '$label'!='' ]
+if [ $label != '' ]
 then
-TMP=$PATCH
-echo $PATCH
 PATCH=$TMP-$label
 fi
 
 # Create final form of semantic version
 # MAJOR.MINOR.PATCH
 VERSION=$MAJOR.$MINOR.$PATCH
-
-echo "git log --all --pretty=format:\"$changelog\" -- $LATEST.. . | sed 's|*|-|g' >> data"
 
 # Generate the Changelog Text
 echo "{ \"tag_name\": \"$VERSION\", \"body\": \" ### Changelog\n\n" > data
