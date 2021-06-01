@@ -1,5 +1,8 @@
 name: 'Automatic Semver Release'
 description: 'Github Semver Automatic Release'
+branding:
+  icon: 'box'  
+  color: 'yellow'
 inputs:
   TOKEN:
     description: 'Secret token from GitHub'
