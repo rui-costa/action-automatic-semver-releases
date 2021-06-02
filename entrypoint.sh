@@ -40,7 +40,7 @@ fi
 # MINOR version when you add functionality in a backwards compatible manner
 # Minor version Y (x.Y.z | x > 0) MUST be incremented if new, backwards compatible functionality is introduced to the public API.
 # It MUST be incremented if any public API functionality is marked as deprecated.
-if [ $semver = 'MAJOR' ]
+if [ $semver = 'MINOR' ]
 then
   MINOR=`echo $LATEST | cut -d '.' -f 2 | awk '{$1=$1+1};1'`
 else
