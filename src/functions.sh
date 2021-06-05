@@ -20,15 +20,18 @@ validate()
 # Get the latest tag and add it to a output variable
 init()
 {
+  echo "Initiliazing repo ..." >&2
   local branch=$1
 
   git fetch origin $branch
   git fetch --tags
   git rebase origin/$branch
+  echo "Repo Initialized." 
 }
 
 get_current_version()
 {
+  echo "Fetching latest tag" >&2
   local output=`git tag | tail -1`
   echo "$output"
 }
@@ -38,6 +41,7 @@ get_current_version()
 # Major version X (X.y.z | X > 0) MUST be incremented if any backwards incompatible changes are introduced to the public API
 get_major_version()
 {
+  echo "Generating Major version increment ..."  >&2
   local current_version="$1"
   local increment="$2"
   local output="0"
@@ -59,6 +63,7 @@ get_major_version()
 # Minor version MUST be reset to 0 when major version is incremented.
 get_minor_version()
 {
+  echo "Generating Minor version increment ..."  >&2
   local current_version="$1"
   local increment="$2"
   local output="0"
@@ -82,6 +87,7 @@ get_minor_version()
 # Patch version MUST be reset to 0 when minor version is incremented.
 get_patch_version()
 {
+  echo "Generating Patch version increment ..."  >&2
   local current_version="$1"
   local increment="$2"
   local output="0"
@@ -97,6 +103,7 @@ get_patch_version()
 # Add label if exists
 get_label()
 {
+  echo "Generating aditional Label ..."  >&2
   local label=$1
   local output=""
 
@@ -114,6 +121,7 @@ get_label()
 # MAJOR.MINOR.PATCH
 get_full_version()
 {
+  echo "Generating Full version using semver syntax ..."  >&2
   local major="$( get_major_version "$1" "$2")"
   local minor="$( get_minor_version "$1" "$2")"
   local patch="$( get_patch_version "$1" "$2")"
@@ -124,6 +132,7 @@ get_full_version()
 
 get_release_body()
 {
+  echo "Generating release notes body ..."  >&2
   local format=$1
   local releaseNotes=$2
   local next_version=$3
@@ -146,6 +155,7 @@ post_release()
   local url=$1
   local token=$2
   local changelog=$3
+  echo "Generating posting release to $url ..."  >&2
   # Create release using github API
   # https://docs.github.com/en/rest/reference/repos#create-a-release
   curl \
