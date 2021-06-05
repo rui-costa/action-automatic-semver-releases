@@ -23,10 +23,6 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
-      # Execute tests
-      - name: 'Execute tests'
-        run: ./entrypoint.test.sh
-
       # Create a GitHub release
       - name: 'Release'
         uses: 'rui-costa/action-automatic-semver-releases@latest'
