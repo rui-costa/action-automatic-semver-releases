@@ -7,7 +7,7 @@ inputs:
   TOKEN:
     description: 'Secret token from GitHub'
     required: true
-    default: ''
+    default: 'null'
   SEMVER:
     description:
       'Which version you want to increment? Use MAJOR, MINOR or PATCH'
@@ -16,7 +16,7 @@ inputs:
   LABEL:
     description: 'Add Labels. i.e final, alpha, rc'
     required: false
-    default: ''
+    default: 'null'
   MAIN_BRANCH:
     description: 'The name of your main branch'
     required: false
@@ -29,7 +29,7 @@ inputs:
   CHANGELOG_TEXT:
     description: 'Text to include as the changelog'
     required: false
-    default: ''
+    default: 'null'
 runs:
   using: 'docker'
   image: 'Dockerfile'

@@ -107,7 +107,7 @@ get_label()
   local label=$1
   local output=""
 
-  if [ ! $label = '' ]
+  if ! [ "$label" = 'null' ]
   then
     output=-$label
   else
@@ -139,7 +139,7 @@ get_release_body()
   local current_version=$4
   local output='{ "tag_name": "'$next_version'", "body": "### Changelog\n\n'
 
-  if [ "$releaseNotes" = "" ]
+  if [ "$releaseNotes" = "null" ]
   then
     output=$output`git log --all --pretty=format:"$format" $current_version.. . | sed 's|*|-|g'`
   else

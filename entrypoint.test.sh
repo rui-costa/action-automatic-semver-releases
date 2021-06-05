@@ -25,19 +25,19 @@ assertEqual 'Is major version to get incremented to 7' $( get_patch_version $tes
 
 # Test the label
 assertEqual 'When label is provided, -label is retrned' $( get_label $label ) "-final"
-assertEqual 'When label is not provided, empty is retrned' $( get_label '' ) ''
+assertEqual 'When label is not provided, empty is retrned' $( get_label "null" ) ''
 
 # Test full version concatenation
-assertEqual 'When incrementing Major, new version will be 2.0.0' $( get_full_version $testVersion "MAJOR" "" ) "2.0.0"
-assertEqual 'When incrementing Minor, new version will be 1.6.0' $( get_full_version $testVersion "MINOR" "" ) "1.6.0"
-assertEqual 'When incrementing Patch, new version will be 1.5.10' $( get_full_version $testVersion "PATCH" "" ) "1.5.10"
+assertEqual 'When incrementing Major, new version will be 2.0.0' $( get_full_version $testVersion "MAJOR" "null" ) "2.0.0"
+assertEqual 'When incrementing Minor, new version will be 1.6.0' $( get_full_version $testVersion "MINOR" "null" ) "1.6.0"
+assertEqual 'When incrementing Patch, new version will be 1.5.10' $( get_full_version $testVersion "PATCH" "null" ) "1.5.10"
 assertEqual 'When adding label to MAJOR, new version will be 2.0.0-final' $( get_full_version $testVersion "MAJOR" $label ) "2.0.0-final"
 
 assertEqual 'Returns current version' $( get_current_version ) $currentVersion
 
 expectation="{ \"tag_name\": \"$testVersion\", \"body\": \"### Changelog\n\n"$releaseNotes" \"}"
 
-assertEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "" "$releaseNotes" "$testVersion" "" )" "$expectation"
-assertNotEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "%H" "" "$testVersion" "$currentVersion" )" "$expectation"
+assertEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "%H" "$releaseNotes" "$testVersion" "$currentVersion" )" "$expectation"
+assertNotEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "%H" "null" "$testVersion" "$currentVersion" )" "$expectation"
 
 report
