@@ -20,7 +20,7 @@ validate()
 # Get the latest tag and add it to a output variable
 init()
 {
-  git fetch 
+  git fetch --unshallow
 }
 
 get_current_version()
