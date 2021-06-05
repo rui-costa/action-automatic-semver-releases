@@ -6,7 +6,7 @@ main()
 {
   local semver="$1"
   local branch="$2"
-  local format="$3"
+  local format=`echo $3 | sed 's|<<GITHUB_REPOSITORY>>|'$GITHUB_REPOSITORY'|g'`
   local token="$4"
   local releaseNotes="$7"
   local label="$6"
