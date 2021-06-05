@@ -36,8 +36,11 @@ assertEqual 'When adding label to MAJOR, new version will be 2.0.0-final' $( get
 assertEqual 'Returns current version' $( get_current_version ) $currentVersion
 
 expectation='{ "tag_name": "'$testVersion'", "body": "'$releaseNotes'" }'
-
 assertEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "$releaseNotes" "$testVersion" "$currentVersion" )" "$expectation"
 assertNotEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "" "$testVersion" "$currentVersion" )" "$expectation"
+
+gitNotes=$( git rev-list --oneline $currentVersion.. . | awk '{ printf "%s\\n", $0 }')
+expectation='{ "tag_name": "'$testVersion'", "body": "### Changelog\n\n'$gitNotes'" }'
+assertEqual 'Correct output format for releaseNotes' "$( get_release_body "" "$testVersion" "$currentVersion" )" "$expectation"
 
 report
