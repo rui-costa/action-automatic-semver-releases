@@ -25,7 +25,6 @@ init()
   git fetch origin $branch
   git fetch --tags
   git rebase origin/$branch
-  echo "Repo Initialized." 
 }
 
 get_current_version()
@@ -161,6 +160,5 @@ post_release()
   -H "Authorization: Bearer $token" \
   $url \
   -d @data
-  # delete file
-  del data
+
 }
