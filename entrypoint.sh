@@ -20,5 +20,5 @@ main()
   local changelog=$( get_release_body "$format" "$releaseNotes" "$next_version" "$current_version" )
   post_release "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" "$token" "$changelog" 
 }
-echo $@
-main $1 $2 $3 $4 $5 $6
+
+main "$1" "$2" "$3" "$4" "$5" "$6"
