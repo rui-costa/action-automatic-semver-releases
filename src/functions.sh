@@ -156,6 +156,8 @@ post_release()
   local token=$2
   local changelog=$3
   echo "Generating posting release to $url ..."  >&2
+  echo "With release notes :" >&2
+  echo $changelog >&2
   # Create release using github API
   # https://docs.github.com/en/rest/reference/repos#create-a-release
   curl \
