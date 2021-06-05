@@ -124,9 +124,9 @@ get_full_version()
 
 get_release_body()
 {
-  local releaseNotes=$1
-  local next_version=$2
-  local current_version=$3
+  local releaseNotes="$1"
+  local next_version="$2"
+  local current_version="$3"
   local output='{ "tag_name": "'$next_version'", "body": "'
 
   if [ "$releaseNotes" = "" ]
