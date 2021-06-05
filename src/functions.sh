@@ -133,7 +133,7 @@ get_release_body()
   if [ "$releaseNotes" = "" ]
   then
     gitHeader="### Changelog\n\n"
-    gitNotes=`git log --all --pretty=format:"$format" $current_version.. . | sed 's|*|-|g'`
+    gitNotes=`git log --all --pretty=format:\"$format\" $current_version.. . | sed 's|*|-|g'`
     output=$output$gitHeader$gitNotes    
   else
     output=$output$releaseNotes
