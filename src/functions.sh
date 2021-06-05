@@ -131,10 +131,8 @@ get_release_body()
 
   if [ "$releaseNotes" = "" ]
   then
-    gitHeader="### Changelog\n\n"
-    command="git rev-list --oneline $current_version.. . "
-    gitNotes=$( $command )
-    output=$output$gitHeader$gitNotes    
+    gitNotes=`git rev-list --oneline $current_version.. .`
+    output=$output"### Changelog\n\n"$gitNotes    
   else
     output=$output$releaseNotes
   fi
