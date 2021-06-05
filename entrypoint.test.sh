@@ -1,7 +1,7 @@
 #!/bin/sh
 
-source 'src/test.sh'
-source 'src/functions.sh'
+. 'src/test.sh'
+. 'src/functions.sh'
 
 testVersion="1.5.9"
 label="final"
