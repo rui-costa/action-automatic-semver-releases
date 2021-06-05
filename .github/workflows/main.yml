@@ -1,10 +1,11 @@
-name: "Release"
+name: 'Release'
 
 on:
   workflow_dispatch:
     inputs:
       semver:
-        description: 'Which version you want to increment? Use MAJOR, MINOR or PATCH'
+        description:
+          'Which version you want to increment? Use MAJOR, MINOR or PATCH'
         required: true
         default: 'PATCH'
       label:
@@ -14,18 +15,22 @@ on:
 
 jobs:
   release:
-    name: "Release"
-    runs-on: "ubuntu-latest"
+    name: 'Release'
+    runs-on: 'ubuntu-latest'
 
     steps:
       # Checkout production branch
-      - name: "Checkout"
+      - name: 'Checkout'
         uses: actions/checkout@v2
 
+      # Execute tests
+      - name: 'Execute tests'
+        run: ./entrypoint.test.sh
+
       # Create a GitHub release
-      - name: "Release"
-        uses: "rui-costa/action-automatic-semver-releases@latest"
+      - name: 'Release'
+        uses: 'rui-costa/action-automatic-semver-releases@latest'
         with:
-          TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          SEMVER: "${{ github.event.inputs.semver }}" 
-          LABEL:  "${{ github.event.inputs.label }}"
+          TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          SEMVER: '${{ github.event.inputs.semver }}'
+          LABEL: '${{ github.event.inputs.label }}'

@@ -1,100 +1,21 @@
 #!/bin/sh
 
-semver="$1"
-label="$2"
-main_branch="$3"
-changelog="$4"
-token="$5"
+source '/src/functions.sh'
 
-# FAIL for invalid version inputs
-if [ $semver = 'MAJOR' ] || [ $semver = 'MINOR' ] || [ $semver = 'PATCH' ]
-then
-  echo "VALID SEMANTIC VERSION INCREMENT"
-else
-  echo "ERROR: INVALID VERSION INPUT"
-  echo "The version $semver is not a valid value."
-  echo "The value is case sensitive. Make sure you type it correctly."
-  echo "Version value MUST be either MAJOR, MINOR or PATCH."
-  exit 1
-fi
+main()
+{
+  local semver="$1"
+  local token="$2"
+  local releaseNotes="$3"
+  local label="$4"
 
-changelog=`echo $changelog | sed 's|<<GITHUB_REPOSITORY>>|'$GITHUB_REPOSITORY'|g'`
+  init
 
-# Get the latest tag and add it to a output variable
-git fetch origin $main_branch
-git fetch --tags
-git rebase origin/$main_branch
-LATEST=`git tag | tail -1`
+  local current_version=$( get_current_version )
+  local next_version=$( get_full_version "$current_version" "$semver" "$label" )
 
-# Generating semantic versioning. Following https://semver.org/
-# MAJOR version when you make incompatible API changes
-# Major version X (X.y.z | X > 0) MUST be incremented if any backwards incompatible changes are introduced to the public API
+  local changelog=$( get_release_body "$releaseNotes" "$next_version" "$current_version" )
+  post_release "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" "$token" "$changelog" 
+}
 
-if [ $semver = 'MAJOR' ]
-then
-  MAJOR=`echo $LATEST | cut -d '.' -f 1 | awk '{$1=$1+1};1'`
-else
-  MAJOR=`echo $LATEST | cut -d '.' -f 1`
-fi
-
-# MINOR version when you add functionality in a backwards compatible manner
-# Minor version Y (x.Y.z | x > 0) MUST be incremented if new, backwards compatible functionality is introduced to the public API.
-# It MUST be incremented if any public API functionality is marked as deprecated.
-if [ $semver = 'MINOR' ]
-then
-  MINOR=`echo $LATEST | cut -d '.' -f 2 | awk '{$1=$1+1};1'`
-else
-  MINOR=`echo $LATEST | cut -d '.' -f 2`
-fi
-
-# PATCH version when you make backwards compatible bug fixes.
-# Patch version Z (x.y.Z | x > 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
-if [ $semver = 'PATCH' ]
-then
-  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1 | awk '{$1=$1+1};1'`
-else
-  PATCH=`echo $LATEST | cut -d '.' -f 3 | cut -d '-' -f 1`
-fi
-
-echo $LATEST
-echo $PATCH
-
-
-# Minor version MUST be reset to 0 when major version is incremented.
-if [ $semver = 'MAJOR' ]
-then
-  MINOR='0'
-fi
-
-# Patch version MUST be reset to 0 when major version is incremented.
-# Patch version MUST be reset to 0 when minor version is incremented.
-if [ $semver = 'MAJOR' ] || [ $semver = 'MINOR' ]
-then
-  PATCH='0'
-fi
-
-# Add label if exists
-if [ ! $label = '' ]
-then
-  PATCH=$TMP-$label
-fi
-
-# Create final form of semantic version
-# MAJOR.MINOR.PATCH
-VERSION=$MAJOR.$MINOR.$PATCH
-
-# Generate the Changelog Text
-echo "{ \"tag_name\": \"$VERSION\", \"body\": \" ### Changelog\n\n" > data
-git log --all --pretty=format:"$changelog" $LATEST.. . | sed 's|*|-|g' >> data
-echo " \"}" >> data
-
-cat data
-
-# Create release using github API
-# https://docs.github.com/en/rest/reference/repos#create-a-release
-curl \
--X POST \
--H "Accept: application/vnd.github.v3+json" \
--H "Authorization: Bearer $token" \
-https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
--d @data
+main "$1" "$2" "$3" "$4"
