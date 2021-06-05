@@ -139,7 +139,7 @@ get_release_body()
   local current_version=$4
   local output='{ "tag_name": "'$next_version'", "body": "'
 
-  if [ "$releaseNotes" = "null" ]
+  if [ "$releaseNotes" = "" ]
   then
     gitHeader="### Changelog\n\n"
     gitNotes=`git log --all --pretty=format:"$format" $current_version.. . | sed 's|*|-|g'`
@@ -147,7 +147,7 @@ get_release_body()
   else
     output=$output$releaseNotes
   fi
-  output=$output' "}'
+  output=$output'" }'
 
   echo "$output"
 }
@@ -163,7 +163,7 @@ post_release()
   
   # create data file 
   echo $changelog > data
-  
+
   # Create release using github API
   # https://docs.github.com/en/rest/reference/repos#create-a-release
   curl \
