@@ -127,14 +127,13 @@ get_release_body()
 
   if [ "$releaseNotes" = "" ]
   then
-    gitNotes=`git log --all --oneline $current_version.. . | awk '{ printf "%s \\n ", $0 }'`
+    gitNotes=$( git log --all --oneline $current_version.. . | awk '{ printf "%s\\n", $0 }')
     output=$output"### Changelog\n\n"$gitNotes    
   else
     output=$output$releaseNotes
   fi
   output=$output'" }'
-
-  echo "$output"
+  echo -E "$output"
 }
 
 post_release()
