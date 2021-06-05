@@ -137,11 +137,13 @@ get_release_body()
   local releaseNotes=$2
   local next_version=$3
   local current_version=$4
-  local output='{ "tag_name": "'$next_version'", "body": "### Changelog\n\n'
+  local output='{ "tag_name": "'$next_version'", "body": "'
 
   if [ "$releaseNotes" = "null" ]
   then
-    output=$output`git log --all --pretty=format:"$format" $current_version.. . | sed 's|*|-|g'`
+    gitHeader="### Changelog\n\n"
+    gitNotes=`git log --all --pretty=format:"$format" $current_version.. . | sed 's|*|-|g'`
+    output=$output$gitHeader$gitNotes    
   else
     output=$output$releaseNotes
   fi
@@ -158,6 +160,10 @@ post_release()
   echo "Generating posting release to $url ..."  >&2
   echo "With release notes :" >&2
   echo $changelog >&2
+  
+  # create data file 
+  echo $changelog > data
+  
   # Create release using github API
   # https://docs.github.com/en/rest/reference/repos#create-a-release
   curl \
@@ -165,5 +171,7 @@ post_release()
   -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: Bearer $token" \
   $url \
-  -d $changelog
+  -d @data
+  # delete file
+  del data
 }
