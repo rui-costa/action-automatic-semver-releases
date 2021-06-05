@@ -16,6 +16,7 @@ main()
   local next_version=$( get_full_version "$current_version" "$semver" "$label" )
 
   local changelog=$( get_release_body "$releaseNotes" "$next_version" "$current_version" )
+  echo $changelog
   post_release "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" "$token" "$changelog" 
 }
 
