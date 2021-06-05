@@ -21,6 +21,7 @@ validate()
 init()
 {
   git fetch --unshallow
+  git fetch --tags
 }
 
 get_current_version()
@@ -36,13 +37,16 @@ get_major_version()
 {
   local current_version="$1"
   local increment="$2"
-  local output="0"
+  local output="1"
   
-  if [ $increment = 'MAJOR' ]
-  then
-    output=`echo $current_version | cut -d '.' -f 1 | awk '{$1=$1+1};1'`
-  else
-    output=`echo $current_version | cut -d '.' -f 1`
+  if ! [ "$current_version" = '' ]
+    then
+    if [ $increment = 'MAJOR' ]
+    then
+      output=`echo $current_version | cut -d '.' -f 1 | awk '{$1=$1+1};1'`
+    else
+      output=`echo $current_version | cut -d '.' -f 1`
+    fi
   fi
 
   echo "$output"
@@ -59,13 +63,16 @@ get_minor_version()
   local increment="$2"
   local output="0"
 
-  if ! [ $increment = 'MAJOR' ]
-  then
-    if [ $increment = 'MINOR' ]
+  if ! [ "$current_version" = '' ]
     then
-      output=`echo $current_version | cut -d '.' -f 2 | awk '{$1=$1+1};1'`
-    else
-      output=`echo $current_version | cut -d '.' -f 2`
+    if ! [ $increment = 'MAJOR' ]
+    then
+      if [ $increment = 'MINOR' ]
+      then
+        output=`echo $current_version | cut -d '.' -f 2 | awk '{$1=$1+1};1'`
+      else
+        output=`echo $current_version | cut -d '.' -f 2`
+      fi
     fi
   fi
 
@@ -81,10 +88,12 @@ get_patch_version()
   local current_version="$1"
   local increment="$2"
   local output="0"
-
-  if ! [ $increment = 'MAJOR' ] && ! [ $increment = 'MINOR' ]
-  then
-    output=`echo $current_version | cut -d '.' -f 3 | cut -d '-' -f 1 | awk '{$1=$1+1};1'`
+  if ! [ "$current_version" = '' ]
+    then
+    if ! [ $increment = 'MAJOR' ] && ! [ $increment = 'MINOR' ]
+    then
+      output=`echo $current_version | cut -d '.' -f 3 | cut -d '-' -f 1 | awk '{$1=$1+1};1'`
+    fi
   fi
 
   echo "$output"
@@ -125,9 +134,14 @@ get_release_body()
   local current_version="$3"
   local output='{ "tag_name": "'$next_version'", "body": "'
 
+  if ! [ "$current_version" = '' ]
+  then
+    current_version="$current_version.. ."
+  fi
+
   if [ "$releaseNotes" = "" ]
   then
-    gitNotes=$( git log --all --oneline $current_version.. . | awk '{ printf "%s\\n", $0 }')
+    gitNotes=$( git log --all --oneline $current_version | awk '{ printf "%s\\n", $0 }')
     output=$output"### Changelog\n\n"$gitNotes    
   else
     output=$output$releaseNotes
