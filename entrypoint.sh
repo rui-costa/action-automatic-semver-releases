@@ -6,10 +6,9 @@ main()
 {
   local semver="$1"
   local branch="$2"
-  local format=`echo $3 | sed 's|<<GITHUB_REPOSITORY>>|'$GITHUB_REPOSITORY'|g'`
-  local token="$4"
-  local releaseNotes="$7"
-  local label="$6"
+  local token="$3"
+  local releaseNotes="$4"
+  local label="$5"
 
   init $branch
 
@@ -20,4 +19,4 @@ main()
   post_release "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" "$token" "$changelog" 
 }
 
-main "$1" "$2" "$3" "$4" "$5" "$6"
+main "$1" "$2" "$3" "$4" "$5"

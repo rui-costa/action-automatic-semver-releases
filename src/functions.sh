@@ -124,16 +124,15 @@ get_full_version()
 
 get_release_body()
 {
-  local format=$1
-  local releaseNotes=$2
-  local next_version=$3
-  local current_version=$4
+  local releaseNotes=$1
+  local next_version=$2
+  local current_version=$3
   local output='{ "tag_name": "'$next_version'", "body": "'
 
   if [ "$releaseNotes" = "" ]
   then
     gitHeader="### Changelog\n\n"
-    command="git log --all --pretty=format:\"$format\" $current_version.. . | sed 's|*|-|g'" >&2
+    command="git rev-list --oneline $current_version.. . "
     gitNotes=$( $command )
     output=$output$gitHeader$gitNotes    
   else

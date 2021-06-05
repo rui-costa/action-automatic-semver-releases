@@ -37,7 +37,7 @@ assertEqual 'Returns current version' $( get_current_version ) $currentVersion
 
 expectation='{ "tag_name": "'$testVersion'", "body": "'$releaseNotes'" }'
 
-assertEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "%H" "$releaseNotes" "$testVersion" "$currentVersion" )" "$expectation"
-assertNotEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "%H" "" "$testVersion" "$currentVersion" )" "$expectation"
+assertEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "$releaseNotes" "$testVersion" "$currentVersion" )" "$expectation"
+assertNotEqual 'When releaseNotes are provided, releaseNotes are returned' "$( get_release_body "" "$testVersion" "$currentVersion" )" "$expectation"
 
 report

@@ -21,11 +21,6 @@ inputs:
     description: 'The name of your main branch'
     required: false
     default: 'main'
-  FORMAT:
-    description: 'Format of the line to appear on the changelog'
-    required: false
-    default:
-      '- [[%h](https://www.github.com/<<GITHUB_REPOSITORY>>/commit/%H)]: %s\n'
   NOTES:
     description: 'Text to include as the changelog'
     required: false
@@ -36,7 +31,6 @@ runs:
   args:
     - ${{ inputs.SEMVER }}
     - ${{ inputs.MAIN_BRANCH }}
-    - ${{ inputs.FORMAT }}
     - ${{ inputs.TOKEN }}
     - ${{ inputs.NOTES }}
     - ${{ inputs.LABEL }}
