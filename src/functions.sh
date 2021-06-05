@@ -20,11 +20,7 @@ validate()
 # Get the latest tag and add it to a output variable
 init()
 {
-  local branch=$1
-
-  git fetch origin $branch
-  git fetch --tags
-  git rebase origin/$branch
+  git fetch 
 }
 
 get_current_version()
