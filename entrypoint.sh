@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source 'src/functions.sh'
+source '/src/functions.sh'
 
 main()
 {
