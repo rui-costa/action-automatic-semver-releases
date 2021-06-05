@@ -50,7 +50,7 @@ jobs:
         run: |
           echo "TESTS PASSED 🎉"
 
-      - uses: 'rui-costa/action-automatic-semver-releases@latest'
+      - uses: 'rui-costa/action-automatic-semver-releases@{latest}'
         with:
           TOKEN: '${{ secrets.GITHUB_TOKEN }}'
           SEMVER: '${{ github.event.inputs.semver }}'
@@ -98,9 +98,9 @@ jobs:
       # This action may not exist, please check
       - name: '⚙ GENERATE RELEASE NOTES'
         id: 'gen-notes'
-        uses: 'rui-costa/action-auto-generate-release-notes@latest'
+        uses: 'rui-costa/action-auto-generate-release-notes@{latest}'
 
-      - uses: 'rui-costa/action-automatic-semver-releases@latest'
+      - uses: 'rui-costa/action-automatic-semver-releases@{latest}'
         with:
           TOKEN: '${{ secrets.GITHUB_TOKEN }}'
           SEMVER: '${{ github.event.inputs.semver }}'
