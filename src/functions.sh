@@ -107,7 +107,7 @@ get_label()
   local label=$1
   local output=""
 
-  if ! [ "$label" = 'null' ]
+  if ! [ "$label" = '' ]
   then
     output=-$label
   else

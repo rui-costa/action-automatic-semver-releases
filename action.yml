@@ -35,8 +35,8 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.SEMVER }}
-    - ${{ inputs.LABEL }}
     - ${{ inputs.MAIN_BRANCH }}
     - ${{ inputs.CHANGELOG_FORMAT }}
     - ${{ inputs.TOKEN }}
     - ${{ inputs.CHANGELOG_TEXT }}
+    - ${{ inputs.LABEL }}

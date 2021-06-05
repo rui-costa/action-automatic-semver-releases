@@ -5,11 +5,11 @@ source '/src/functions.sh'
 main()
 {
   local semver="$1"
-  local label="$2"
-  local branch="$3"
-  local format="$4"
-  local token="$5"
-  local releaseNotes="$6"
+  local branch="$2"
+  local format="$3"
+  local token="$4"
+  local releaseNotes="$7"
+  local label="$6"
 
   init $branch
 
