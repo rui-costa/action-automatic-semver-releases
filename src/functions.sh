@@ -134,7 +134,7 @@ get_release_body()
   then
     gitHeader="### Changelog\n\n"
     command="git log --all --pretty=format:\"$format\" $current_version.. . | sed 's|*|-|g'" >&2
-    eval gitNotes=$command
+    gitNotes=$( $command )
     output=$output$gitHeader$gitNotes    
   else
     output=$output$releaseNotes
