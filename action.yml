@@ -17,10 +17,6 @@ inputs:
     description: 'Add Labels. i.e final, alpha, rc'
     required: false
     default: ''
-  MAIN_BRANCH:
-    description: 'The name of your main branch'
-    required: false
-    default: 'main'
   NOTES:
     description: 'Text to include as the changelog'
     required: false
@@ -30,7 +26,6 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.SEMVER }}
-    - ${{ inputs.MAIN_BRANCH }}
     - ${{ inputs.TOKEN }}
     - ${{ inputs.NOTES }}
     - ${{ inputs.LABEL }}
