@@ -1,7 +1,7 @@
 name: 'Automatic Semver Release'
 description: 'Github Semver Automatic Release'
 branding:
-  icon: 'box'  
+  icon: 'box'
   color: 'yellow'
 inputs:
   TOKEN:
@@ -9,7 +9,8 @@ inputs:
     required: true
     default: ''
   SEMVER:
-    description: 'Which version you want to increment? Use MAJOR, MINOR or PATCH'
+    description:
+      'Which version you want to increment? Use MAJOR, MINOR or PATCH'
     required: false
     default: 'PATCH'
   LABEL:
@@ -23,7 +24,12 @@ inputs:
   CHANGELOG_FORMAT:
     description: 'Format of the line to appear on the changelog'
     required: false
-    default: '- [[%h](https://www.github.com/<<GITHUB_REPOSITORY>>/commit/%H)]: %s\n'
+    default:
+      '- [[%h](https://www.github.com/<<GITHUB_REPOSITORY>>/commit/%H)]: %s\n'
+  CHANGELOG_TEXT:
+    description: 'Text to include as the changelog'
+    required: false
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -33,3 +39,4 @@ runs:
     - ${{ inputs.MAIN_BRANCH }}
     - ${{ inputs.CHANGELOG_FORMAT }}
     - ${{ inputs.TOKEN }}
+    - ${{ inputs.CHANGELOG_TEXT }}
