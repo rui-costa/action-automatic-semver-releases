@@ -16,7 +16,7 @@ inputs:
   LABEL:
     description: 'Add Labels. i.e final, alpha, rc'
     required: false
-    default: 'null'
+    default: ''
   MAIN_BRANCH:
     description: 'The name of your main branch'
     required: false
