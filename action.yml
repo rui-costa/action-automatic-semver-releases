@@ -21,6 +21,9 @@ inputs:
     description: 'Text to include as the changelog'
     required: false
     default: ''
+outputs:
+  tag:
+    description: 'The created release/tag semver'
 runs:
   using: 'docker'
   image: 'Dockerfile'
