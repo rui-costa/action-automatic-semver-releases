@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM alpine:3.18.5
+FROM alpine:3.18.6
 RUN apk update
 RUN apk add git
 RUN apk add curl
